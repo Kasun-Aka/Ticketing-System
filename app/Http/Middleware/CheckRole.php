@@ -11,8 +11,6 @@ class CheckRole
         {
             $user = $request->user();
         
-            // 1. Check if user exists (is logged in)
-            // 2. Check if user's role is allowed
             if (!$user || !in_array($user->role, $roles)) {
                 return response()->json([
                     'error' => 'Unauthorized access. Please log in with appropriate permissions.'

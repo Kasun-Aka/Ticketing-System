@@ -18,9 +18,6 @@ class TicketService
         $this->ticketRepository = $ticketRepository;
     }
 
-    /**
-     * Get tickets for a user based on their role.
-     */
     public function getTicketsForUser(User $user): Collection
     {
         if ($user->role === 'admin') {
@@ -30,12 +27,8 @@ class TicketService
         return $this->ticketRepository->getTicketsByUserId($user->id);
     }
 
-    /**
-     * Create a new ticket.
-     */
     public function createTicket(User $user, array $data): BaseTicket
     {
-        // Instantiating concrete class based on type selection
         $ticket = $data['type'] === 'priority' ? new PriorityTicket() : new StandardTicket();
         
         $ticket->user_id = $user->id;
@@ -43,7 +36,6 @@ class TicketService
         $ticket->description = $data['description'];
         $ticket->type = $data['type'];
         
-        // Polymorphic SLA calculation
         $ticket->sla_hours = $ticket->calculateSlaHours(); 
         
         $this->ticketRepository->save($ticket);
@@ -51,9 +43,6 @@ class TicketService
         return $ticket;
     }
 
-    /**
-     * Resolve a ticket.
-     */
     public function resolveTicket(int $ticketId): ?BaseTicket
     {
         $ticket = $this->ticketRepository->findById($ticketId);

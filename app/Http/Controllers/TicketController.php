@@ -15,7 +15,7 @@ class TicketController
         $this->ticketService = $ticketService;
     }
 
-    // Role-based retrieval: Admin views all, Customers view only their own
+
     public function index()
     {
         $user = Auth::user();
@@ -28,17 +28,15 @@ class TicketController
         return response()->json($tickets);
     }
 
-    // Ticket Creation logic based on User Level Access
+
     public function store(Request $request)
     {
         $user = Auth::user();
 
-        // Guard against unauthenticated requests
         if (!$user) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-        // Validate type logic
         if ($request->type === 'priority' && $user->role === 'customer') {
             return response()->json([
                 'error' => 'Standard customers cannot create priority tickets.'

@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody id="adminTicketTable">
-                <!-- Loaded via API -->
+
             </tbody>
         </table>
     </div>
